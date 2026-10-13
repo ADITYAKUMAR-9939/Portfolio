@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --accent: #06b6d4;
+            --text: #172033;
+            --muted: #64748b;
+            --surface: #ffffff;
+            --background: #f3f6ff;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, #e0e7ff 0, transparent 35%),
+                linear-gradient(135deg, #f8fafc, var(--background));
+            line-height: 1.6;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        nav a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 650;
+            padding: 9px 15px;
+            border-radius: 999px;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            color: white;
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        main {
+            width: min(100% - 32px, 1000px);
+            margin: 36px auto 56px;
+        }
+
+        .hero {
+            padding: 38px 28px;
+            margin-bottom: 28px;
+            text-align: center;
+            color: white;
+            border-radius: 24px;
+            background: linear-gradient(120deg, #4338ca, #6366f1 55%, #06b6d4);
+            box-shadow: 0 18px 45px rgba(79, 70, 229, 0.22);
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #eef2ff;
+        }
+
+        section, fieldset {
+            min-width: 0;
+            margin: 0 0 26px;
+            padding: 26px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.055);
+        }
+
+        h2, section h1 {
+            margin: 0 0 18px;
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+        }
+
+        h2::after, section h1::after {
+            content: "";
+            display: block;
+            width: 54px;
+            height: 4px;
+            margin-top: 8px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        th, td {
+            padding: 13px 15px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        th {
+            color: white;
+            background: var(--primary);
+            font-weight: 650;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8faff;
+        }
+
+        tbody tr:hover {
+            background: #eef2ff;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 22px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px 24px;
+        }
+
+        li::marker {
+            color: var(--primary);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            min-height: 44px;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.13);
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .option {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 22px;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 11px 20px;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(79, 70, 229, 0.18);
+        }
+
+        .submit-btn {
+            color: white;
+            background: var(--primary);
+        }
+
+        .reset-btn {
+            color: #334155;
+            background: #e2e8f0;
+        }
+
+        footer {
+            padding: 22px;
+            text-align: center;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        footer a {
+            color: var(--primary-dark);
+            font-weight: 650;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 650px) {
+            nav {
+                gap: 5px;
+                padding: 12px;
+            }
+
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.92rem;
+            }
+
+            main {
+                width: min(100% - 20px, 1000px);
+                margin-top: 20px;
+            }
+
+            .hero {
+                padding: 30px 18px;
+                border-radius: 18px;
+            }
+
+            section, fieldset {
+                padding: 18px;
+                border-radius: 14px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.92rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav aria-label="Main navigation">
+            <a href="#home">Home</a>
+            <a href="#profile">Profile</a>
+            <a href="#schedule">Schedule</a>
+            <a href="#skills">Skills</a>
+            <a href="#course">Register</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="hero" id="home">
+            <h1>Student Information Portal</h1>
+            <p>Your student profile, weekly schedule, skills, and course registration in one place.</p>
+        </div>
+
+        <section id="profile">
+            <h1>Student Profile</h1>
+            <table>
+                <thead>
+                    <tr><th>Field</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Name</td><td>Aditya Kumar</td></tr>
+                    <tr><td>Student ID</td><td>26bcs10820</td></tr>
+                    <tr><td>Program</td><td>Computer Science</td></tr>
+                    <tr><td>Year</td><td>1st Year</td></tr>
+                    <tr><td>Email</td><td><a href="mailto:ravik96678@gmail.com">ravik96678@gmail.com</a></td></tr>
+                    <tr><td>LinkedIn</td><td><a href="https://www.linkedin.com/in/aditya-kumar-719711413/" target="_blank" rel="noopener noreferrer">linkedin.com/in/aditya-kumar-719711413</a></td></tr>
+                    <tr><td>GitHub</td><td><a href="https://github.com/ADITYAKUMAR-9939" target="_blank" rel="noopener noreferrer">github.com/ADITYAKUMAR-9939</a></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="schedule">
+            <h1>Weekly Schedule</h1>
+            <table>
+                <thead>
+                    <tr><th>Day</th><th>9:00 AM</th><th>11:00 AM</th><th>2:00 PM</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Monday</td><td>HTML</td><td>Mathematics</td><td>DSA</td></tr>
+                    <tr><td>Tuesday</td><td>CSS</td><td>DBMS</td><td>English</td></tr>
+                    <tr><td>Wednesday</td><td>JavaScript</td><td>DSA</td><td>Mathematics</td></tr>
+                    <tr><td>Thursday</td><td>DBMS</td><td>HTML</td><td>Project</td></tr>
+                    <tr><td>Friday</td><td>DSA</td><td>CSS</td><td>Workshop</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="skills">
+            <h1>My Skills</h1>
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>Python</li>
+                <li>Git</li>
+            </ul>
+        </section>
+
+        <section id="course">
+            <h1>Course Registration</h1>
+            <form action="#" method="post">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="student-name">Name</label>
+                        <input id="student-name" type="text" name="name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="student-email">Email</label>
+                        <input id="student-email" type="email" name="email" placeholder="abc@example.com" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="student-id">Student ID</label>
+                        <input id="student-id" type="text" name="studentId" placeholder="Enter your student ID" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="course-select">Course Selection</label>
+                        <select id="course-select" name="course">
+                            <option value="HTML & CSS">HTML &amp; CSS</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Python">Python</option>
+                            <option value="Data Structures">Data Structures</option>
+                            <option value="Database Management">Database Management</option>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label>Preferred Learning Mode</label>
+                        <div class="options">
+                            <label class="option"><input type="radio" name="learningMode" value="Online" required> Online</label>
+                            <label class="option"><input type="radio" name="learningMode" value="Offline"> Offline</label>
+                        </div>
+                    </div>
+
+                    <div class="field full">
+                        <label>Skills</label>
+                        <div class="options">
+                            <label class="option"><input type="checkbox" name="skill" value="HTML"> HTML</label>
+                            <label class="option"><input type="checkbox" name="skill" value="CSS"> CSS</label>
+                            <label class="option"><input type="checkbox" name="skill" value="JavaScript"> JavaScript</label>
+                            <label class="option"><input type="checkbox" name="skill" value="Python"> Python</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button class="submit-btn" type="submit">Submit Registration</button>
+                    <button class="reset-btn" type="reset">Reset Form</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        &#64; copyright at Aditya Kumar &nbsp;|&nbsp;
+        <a href="https://www.linkedin.com/in/aditya-kumar-719711413/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        &nbsp;|&nbsp;
+        <a href="https://github.com/ADITYAKUMAR-9939" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </footer>
+</body>
+</html>
